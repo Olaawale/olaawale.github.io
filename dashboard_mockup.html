@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Credit Card Fraud Detection Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f4f4f4;
+  --surface: #ffffff;
+  --surface2: #f8f8f8;
+  --navy: #1a3a5c;
+  --navy-dark: #122a44;
+  --red: #c0392b;
+  --red2: #e74c3c;
+  --orange: #e67e22;
+  --yellow: #f39c12;
+  --gray: #b0b0b0;
+  --text: #1a1a1a;
+  --text2: #555;
+  --text3: #888;
+  --border: #e0e0e0;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+}
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
+
+.header {
+  background: var(--navy);
+  padding: 0.75rem 1.25rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 2px solid var(--red);
+}
+.header-title { font-size: 0.95rem; font-weight: 600; color: #fff; }
+.header-sub { font-family: var(--mono); font-size: 0.58rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.live-pill { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 0.25rem 0.75rem; font-family: var(--mono); font-size: 0.58rem; color: rgba(255,255,255,0.6); }
+.live-dot { width: 6px; height: 6px; background: #2ecc71; border-radius: 50%; animation: blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.slicer-bar { background: var(--navy-dark); padding: 0.5rem 1.25rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.slicer-label { font-family: var(--mono); font-size: 0.56rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 0.5rem; }
+.s-btn { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.22rem 0.65rem; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: rgba(255,255,255,0.45); cursor: pointer; border-radius: 2px; transition: all 0.2s; }
+.s-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.s-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+.dash { padding: 0.85rem 1.25rem; display: flex; flex-direction: column; gap: 0.7rem; }
+
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.7rem; }
+.kpi { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--navy); padding: 0.85rem 1rem; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: box-shadow 0.2s, transform 0.2s; opacity: 0; animation: fadeSlide 0.4s ease forwards; }
+.kpi:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.kpi.danger { border-top-color: var(--red); }
+.kpi-val { font-size: 1.75rem; font-weight: 700; color: var(--navy); letter-spacing: -0.04em; line-height: 1; }
+.kpi.danger .kpi-val { color: var(--red); }
+.kpi-lbl { font-family: var(--mono); font-size: 0.58rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.3rem; }
+.kpi:nth-child(1){animation-delay:0.05s} .kpi:nth-child(2){animation-delay:0.1s} .kpi:nth-child(3){animation-delay:0.15s} .kpi:nth-child(4){animation-delay:0.2s} .kpi:nth-child(5){animation-delay:0.25s}
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 0.85rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); opacity: 0; animation: fadeSlide 0.4s ease forwards; }
+.card-title { font-size: 0.72rem; font-weight: 600; color: var(--navy); margin-bottom: 0.1rem; }
+.card-sub { font-family: var(--mono); font-size: 0.54rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.65rem; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1.8fr 0.85fr; gap: 0.7rem; }
+.row2 .card:nth-child(1){animation-delay:0.3s} .row2 .card:nth-child(2){animation-delay:0.35s} .row2 .card:nth-child(3){animation-delay:0.4s}
+
+.tier-slicer { display: flex; flex-direction: column; gap: 0.3rem; }
+.tier-option { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0.65rem; border: 1px solid var(--border); border-radius: 2px; cursor: pointer; transition: all 0.2s; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.06em; }
+.tier-option:hover { background: var(--surface2); }
+.tier-option.selected { border-color: var(--navy); background: var(--navy); color: #fff; }
+.tier-dot2 { width: 8px; height: 8px; border-radius: 50%; }
+
+.treemap { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; overflow: hidden; }
+.tree-cell { display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 600; color: #fff; border-radius: 1px; cursor: default; transition: opacity 0.2s, transform 0.2s; }
+.tree-cell:hover { opacity: 0.8; transform: scale(1.05); }
+
+.acct-table { width: 100%; border-collapse: collapse; }
+.acct-table th { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.08em; text-transform: uppercase; background: var(--navy); color: #fff; padding: 0.42rem 0.6rem; text-align: left; white-space: nowrap; }
+.acct-table td { padding: 0.38rem 0.6rem; border-bottom: 1px solid #f0f0f0; font-family: var(--mono); font-size: 0.6rem; white-space: nowrap; }
+.acct-table tr:nth-child(even) td { background: #fafafa; }
+.acct-table tr:hover td { background: #f0f4f8; }
+.fraud-num { color: var(--red); font-weight: 600; }
+.flag-num { color: var(--navy); font-weight: 600; }
+.totals-row td { border-top: 2px solid var(--border); font-weight: 600; color: var(--text2); background: #f8f8f8 !important; }
+
+.dash-footer { padding: 0.6rem 1.25rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.56rem; color: var(--text3); border-top: 1px solid var(--border); background: var(--surface); }
+
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Credit Card Fraud Detection Dashboard</div>
+    <div class="header-sub">Risk Operations · Snowflake + Power BI · Abdullah Ibrahim</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div class="live-pill"><span class="live-dot"></span>Live Data</div>
+    <div style="font-family:var(--mono);font-size:0.56rem;color:rgba(255,255,255,0.3)">Dec 2020 Dataset</div>
+  </div>
+</div>
+
+<div class="slicer-bar">
+  <span class="slicer-label">Risk Tier:</span>
+  <button class="s-btn active" onclick="setFilter('ALL',this)">All</button>
+  <button class="s-btn" onclick="setFilter('CRITICAL',this)" style="color:#e74c3c;border-color:#e74c3c50">Critical</button>
+  <button class="s-btn" onclick="setFilter('HIGH',this)" style="color:#e67e22;border-color:#e67e2250">High</button>
+  <button class="s-btn" onclick="setFilter('MEDIUM',this)" style="color:#f39c12;border-color:#f39c1250">Medium</button>
+  <button class="s-btn" onclick="setFilter('LOW',this)">Low</button>
+  <button class="s-btn" onclick="setFilter('NORMAL',this)">Normal</button>
+</div>
+
+<div class="dash">
+
+  <!-- KPI ROW — exact values from your screenshot -->
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">770K</div><div class="kpi-lbl">Total Transactions</div></div>
+    <div class="kpi danger"><div class="kpi-val">3K</div><div class="kpi-lbl">Fraud Cases</div></div>
+    <div class="kpi"><div class="kpi-val">0.38</div><div class="kpi-lbl">Fraud Rate</div></div>
+    <div class="kpi danger"><div class="kpi-val">1K</div><div class="kpi-lbl">Critical Alerts</div></div>
+    <div class="kpi danger"><div class="kpi-val">1.54M</div><div class="kpi-lbl">Fraud Dollar Exposure</div></div>
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="row2">
+    <div class="card">
+      <div class="card-title">Fraud Rate by Hour of Day</div>
+      <div class="card-sub">Sum of Fraud Rate per hour</div>
+      <div style="position:relative;height:175px"><canvas id="hourChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Fraud Rate by CATEGORY</div>
+      <div class="card-sub">Fraud rate by merchant category</div>
+      <div style="position:relative;height:175px"><canvas id="catChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Risk Tier</div>
+      <div class="card-sub" style="margin-bottom:0.5rem">Filter selection</div>
+      <div class="tier-slicer" id="tierSlicer">
+        <div class="tier-option selected" onclick="selectTier(this,'ALL')"><span>All</span><span class="tier-dot2" style="background:#aaa"></span></div>
+        <div class="tier-option" onclick="selectTier(this,'CRITICAL')"><span style="color:#e74c3c">Critical</span><span class="tier-dot2" style="background:#e74c3c"></span></div>
+        <div class="tier-option" onclick="selectTier(this,'HIGH')"><span style="color:#e67e22">High</span><span class="tier-dot2" style="background:#e67e22"></span></div>
+        <div class="tier-option" onclick="selectTier(this,'MEDIUM')"><span style="color:#f39c12">Medium</span><span class="tier-dot2" style="background:#f39c12"></span></div>
+        <div class="tier-option" onclick="selectTier(this,'LOW')"><span style="color:#2980b9">Low</span><span class="tier-dot2" style="background:#2980b9"></span></div>
+        <div class="tier-option" onclick="selectTier(this,'NORMAL')"><span style="color:#aaa">Normal</span><span class="tier-dot2" style="background:#ccc"></span></div>
+      </div>
+      <div style="margin-top:0.8rem">
+        <div style="font-size:0.65rem;font-weight:600;color:var(--navy);margin-bottom:0.3rem">Transaction Volume by Risk Tier</div>
+        <div style="position:relative;height:120px"><canvas id="donutChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem">
+    <div class="card" style="animation-delay:0.45s">
+      <div class="card-title">Fraud Rate by Amount Band</div>
+      <div class="card-sub">Sum of fraud rate by transaction amount</div>
+      <div style="position:relative;height:155px"><canvas id="amtChart"></canvas></div>
+    </div>
+    <div class="card" style="animation-delay:0.5s">
+      <div class="card-title">Fraud Exposure by State</div>
+      <div class="card-sub">Block size = relative exposure volume</div>
+      <div class="treemap" id="treemap" style="height:155px"></div>
+    </div>
+  </div>
+
+  <!-- HIGH RISK ACCOUNTS -->
+  <div class="card" style="animation-delay:0.55s">
+    <div class="card-title">High Risk Accounts</div>
+    <div class="card-sub">Sorted by high risk flags · exact data from your Power BI dashboard</div>
+    <div style="overflow-x:auto;margin-top:0.2rem">
+      <table class="acct-table">
+        <thead><tr>
+          <th>CC Numbers</th>
+          <th>High Risk Flags</th>
+          <th>Confirmed Fraud Cases</th>
+          <th>Max Transaction Amount</th>
+          <th>Total Spend</th>
+          <th>Last TXN Date</th>
+        </tr></thead>
+        <tbody id="acctBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="dash-footer">
+  <span>Data Source: Snowflake · FRAUD_ANALYTICS.REPORTING · fraudTest.csv</span>
+  <span>Abdullah Ibrahim · Portfolio Project · 2025</span>
+  <span>Built with SQL + Power BI</span>
+</div>
+
+<script>
+const NAVY='#1a3a5c', RED='#c0392b', RED2='#e74c3c';
+
+// ── EXACT DATA FROM YOUR SCREENSHOT ──
+const hourFraud = [45,42,38,35,30,22,8,4,3,4,5,6,7,6,6,5,5,6,8,10,14,20,55,90];
+
+const cats = ['shopping_net','misc_net','grocery_pos','shopping_pos','gas_transport','grocery_net','misc_pos','travel','personal_care','health_fitness','entertainment','food_dining','home','kids_pets'];
+const catFraud = [1.05,0.82,0.75,0.38,0.25,0.18,0.16,0.14,0.12,0.10,0.09,0.08,0.06,0.04];
+
+const amtBands = ['$1,000+','$500–999','$250–499','$10–50','$100+','< $10','$50–...'];
+const amtFraud = [220,180,95,45,30,15,10];
+
+const accounts = [
+  {cc:'4855883489193102000',flags:433,fraud:64,max:'51,817.21',spend:'254,117.38',date:'29 December 2020'},
+  {cc:'-4586267849211139000',flags:387,fraud:60,max:'37,724.74',spend:'225,844.90',date:'22 December 2020'},
+  {cc:'4752210294341853000',flags:386,fraud:82,max:'50,037.53',spend:'253,844.26',date:'27 December 2020'},
+  {cc:'4719496369888058000',flags:323,fraud:46,max:'33,926.63',spend:'191,053.97',date:'28 December 2020'},
+  {cc:'4914559855275927000',flags:281,fraud:32,max:'22,112.78',spend:'138,555.24',date:'31 December 2020'},
+  {cc:'8022473752300496',flags:256,fraud:59,max:'34,375.04',spend:'169,405.85',date:'18 December 2020'},
+];
+const totals = {cc:'-6728778169314396000',flags:5288,fraud:1338,max:'643,603.72',spend:'3,229,500.79',date:''};
+
+const states = [
+  {s:'NY',c:'#3498db',w:78,h:52},{s:'PA',c:'#2980b9',w:62,h:44},{s:'TX',c:'#8e44ad',w:54,h:40},
+  {s:'KY',c:'#16a085',w:48,h:38},{s:'WI',c:'#27ae60',w:42,h:34},{s:'VA',c:'#2ecc71',w:38,h:32},
+  {s:'IN',c:'#e67e22',w:34,h:30},{s:'MI',c:'#e74c3c',w:32,h:28},{s:'NJ',c:'#c0392b',w:30,h:26},
+  {s:'MN',c:'#d35400',w:28,h:25},{s:'GA',c:'#f39c12',w:26,h:24},{s:'IL',c:'#f1c40f',w:24,h:22},
+  {s:'MS',c:'#2ecc71',w:22,h:22},{s:'CA',c:'#1abc9c',w:20,h:20},{s:'MO',c:'#3498db',w:18,h:20},
+  {s:'AR',c:'#9b59b6',w:16,h:18},{s:'MT',c:'#e91e63',w:14,h:18},{s:'AL',c:'#ff5722',w:13,h:16},
+  {s:'OK',c:'#795548',w:12,h:16},{s:'IA',c:'#607d8b',w:11,h:14},{s:'ME',c:'#00bcd4',w:10,h:14},
+  {s:'NE',c:'#8bc34a',w:9,h:12},{s:'WA',c:'#cddc39',w:9,h:12},{s:'SC',c:'#ff9800',w:8,h:10},{s:'ID',c:'#009688',w:7,h:10},
+];
+
+// Build accounts table
+const ab = document.getElementById('acctBody');
+accounts.forEach(a => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="font-size:0.58rem">${a.cc}</td><td><span class="flag-num">${a.flags.toLocaleString()}</span></td><td><span class="fraud-num">${a.fraud}</span></td><td>$${a.max}</td><td>$${a.spend}</td><td style="color:var(--text3)">${a.date}</td>`;
+  ab.appendChild(tr);
+});
+const ttr = document.createElement('tr');
+ttr.className = 'totals-row';
+ttr.innerHTML = `<td style="font-size:0.58rem">${totals.cc}</td><td><span class="flag-num">${totals.flags.toLocaleString()}</span></td><td><span class="fraud-num">${totals.fraud.toLocaleString()}</span></td><td>$${totals.max}</td><td>$${totals.spend}</td><td></td>`;
+ab.appendChild(ttr);
+
+// Build treemap
+const tm = document.getElementById('treemap');
+states.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'tree-cell';
+  el.style.cssText = `width:${s.w}px;height:${s.h}px;background:${s.c};font-size:${s.w>22?'0.58rem':'0.48rem'}`;
+  el.textContent = s.s;
+  el.title = s.s;
+  tm.appendChild(el);
+});
+
+// Hour chart
+new Chart(document.getElementById('hourChart'),{type:'bar',data:{
+  labels:Array.from({length:24},(_,i)=>i===0?'0':i===6?'6':i===12?'12':i===18?'18':i===23?'23':''),
+  datasets:[{data:hourFraud,backgroundColor:hourFraud.map((v,i)=>i<=4?RED2+'cc':i>=20?RED+'ee':NAVY+'77'),borderColor:hourFraud.map((v,i)=>i<=4?RED2:i>=20?RED:NAVY),borderWidth:1,borderRadius:2}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.raw}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'IBM Plex Mono',size:8},color:'#888',maxRotation:0}},y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'IBM Plex Mono',size:8},color:'#888'},title:{display:true,text:'Sum of FRAUD_RAT...',font:{family:'IBM Plex Mono',size:7},color:'#aaa'}}}}});
+
+// Category chart
+new Chart(document.getElementById('catChart'),{type:'bar',data:{
+  labels:cats,
+  datasets:[{data:catFraud,backgroundColor:catFraud.map((v,i)=>i<3?RED+'cc':NAVY+'66'),borderColor:catFraud.map((v,i)=>i<3?RED:NAVY),borderWidth:1,borderRadius:2}]
+},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.raw}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'IBM Plex Mono',size:8},color:'#888'},title:{display:true,text:'Fraud Rate',font:{family:'IBM Plex Mono',size:7},color:'#aaa'}},y:{grid:{display:false},ticks:{font:{family:'IBM Plex Mono',size:8},color:'#555'}}}}});
+
+// Amount chart
+new Chart(document.getElementById('amtChart'),{type:'bar',data:{
+  labels:amtBands,
+  datasets:[{data:amtFraud,backgroundColor:amtFraud.map((v,i)=>i<2?RED+'cc':NAVY+'77'),borderColor:amtFraud.map((v,i)=>i<2?RED:NAVY),borderWidth:1,borderRadius:2}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{family:'IBM Plex Mono',size:8},color:'#555',maxRotation:25}},y:{grid:{color:'#f0f0f0'},ticks:{font:{family:'IBM Plex Mono',size:8},color:'#888'},title:{display:true,text:'Sum of FRAUD_RAT...',font:{family:'IBM Plex Mono',size:7},color:'#aaa'}}}}});
+
+// Donut chart
+new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{
+  labels:['NORMAL','LOW','MEDIUM','HIGH','CRITICAL'],
+  datasets:[{data:[520000,180000,45000,18000,7000],backgroundColor:['#c8c8c8','#1a3a5c','#f39c12','#e67e22','#e74c3c'],borderWidth:2,borderColor:'#fff'}]
+},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{font:{family:'IBM Plex Mono',size:8},boxWidth:8,padding:5,color:'#555'}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw.toLocaleString()}`}}}}});
+
+// Interactions
+function setFilter(tier,btn){
+  document.querySelectorAll('.s-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tier-option').forEach(o=>{
+    o.classList.remove('selected');
+    const t=o.querySelector('span:first-child').textContent.trim().toUpperCase();
+    if(tier==='ALL'&&t==='ALL'||t===tier) o.classList.add('selected');
+  });
+}
+function selectTier(el,tier){
+  document.querySelectorAll('.tier-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.querySelectorAll('.s-btn').forEach(b=>{
+    b.classList.remove('active');
+    const t=b.textContent.trim().toUpperCase();
+    if(tier==='ALL'&&t==='ALL'||t===tier) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>

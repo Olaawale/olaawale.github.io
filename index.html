@@ -658,6 +658,114 @@
   .fade-up.visible { opacity: 1; transform: translateY(0); }
 
   /* ─── RESPONSIVE ─── */
+  /* ─── DASHBOARD PREVIEW ─── */
+  .dashboard-preview {
+    margin-top: 2rem;
+    max-width: 700px;
+  }
+  .dashboard-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    background: var(--ink);
+    border-radius: 6px 6px 0 0;
+  }
+  .dashboard-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .dashboard-expand {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .dashboard-expand:hover { opacity: 0.7; }
+  .dashboard-img-wrap {
+    position: relative;
+    overflow: hidden;
+    line-height: 0;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+  }
+  .dashboard-img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s ease, filter 0.4s ease;
+  }
+  .dashboard-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,10,10,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  .dashboard-img-wrap:hover .dashboard-overlay { background: rgba(10,10,10,0.5); }
+  .dashboard-img-wrap:hover .dashboard-img { transform: scale(1.02); filter: brightness(0.8); }
+  .dashboard-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.8rem 1.5rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .dashboard-img-wrap:hover .dashboard-view-btn { opacity: 1; transform: translateY(0); }
+
+  /* Project action links */
+  .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.4rem;
+  }
+  .project-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-action-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.76,0,0.24,1);
+  }
+  .project-action-btn:hover::before { transform: translateX(0); }
+  .project-action-btn:hover { color: var(--paper); border-color: var(--ink); }
+  .project-action-btn span { position: relative; z-index: 1; }
+  .project-action-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .project-action-btn.primary::before { background: var(--accent); }
+
   @media (max-width: 900px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { gap: 1.5rem; }
@@ -813,6 +921,36 @@
           Built an end-to-end fraud detection analytics pipeline in Snowflake — ingesting raw transaction logs, applying Z-score and IQR anomaly flagging via SQL window functions, and surfacing high-risk accounts in a Power BI dashboard refreshed daily.
         </div>
         <div class="project-impact">Flagged 340+ suspicious accounts in first 30-day run; reduced manual review workload by 40%</div>
+
+        <!-- Action Buttons -->
+        <div class="project-actions">
+          <a href="dashboard_mockup.html" target="_blank" class="project-action-btn primary">
+            <span>Live Demo</span><span>↗</span>
+          </a>
+          <a href="fraud_dashboard.png" target="_blank" class="project-action-btn">
+            <span>View Dashboard</span><span>↗</span>
+          </a>
+          <a href="fraud_dashboard.pdf" target="_blank" class="project-action-btn">
+            <span>Download PDF</span><span>↓</span>
+          </a>
+        </div>
+
+        <!-- Dashboard Screenshot -->
+        <div class="dashboard-preview">
+          <div class="dashboard-preview-header">
+            <span class="dashboard-label">Power BI · Credit Card Fraud Detection Dashboard</span>
+            <a href="fraud_dashboard.png" target="_blank" class="dashboard-expand">View full size ↗</a>
+          </div>
+          <div class="dashboard-img-wrap">
+            <img src="fraud_dashboard.png" alt="Credit Card Fraud Detection Dashboard" class="dashboard-img"/>
+            <div class="dashboard-overlay">
+              <a href="dashboard_mockup.html" target="_blank" class="dashboard-view-btn">
+                <span>Open Live Demo</span><span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
       </div>
       <span class="project-arrow">↗</span>
     </div>
@@ -933,7 +1071,7 @@
           <span class="cl-value">GitHub</span>
           <span class="cl-arrow">→</span>
         </a>
-        <a href="C:\Users\lawal\Downloads\Abdullah_Ibrahim_Resume_US.pdf" class="contact-link" target="_blank">
+        <a href="Abdullah_Ibrahim_Resume_US.pdf" class="contact-link" target="_blank">
           <span class="cl-label">Resume</span>
           <span class="cl-value">Download PDF ↓</span>
           <span class="cl-arrow">→</span>
