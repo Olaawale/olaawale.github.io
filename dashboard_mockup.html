@@ -86,6 +86,78 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
 .dash-footer { padding: 0.6rem 1.25rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.56rem; color: var(--text3); border-top: 1px solid var(--border); background: var(--surface); }
 
 @keyframes fadeSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── TABS ── */
+.tab-nav { background: var(--navy-dark); display: flex; align-items: center; gap: 0; padding: 0 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.tab-btn { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.7rem 1.2rem; border: none; background: transparent; color: rgba(255,255,255,0.4); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+.tab-btn:hover { color: rgba(255,255,255,0.7); }
+.tab-btn.active { color: #fff; border-bottom-color: var(--red); }
+.tab-icon { font-size: 0.7rem; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── HOW IT'S BUILT ── */
+.hib { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+
+/* Pipeline diagram */
+.pipeline { display: flex; align-items: center; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; }
+.pipe-step { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; min-width: 130px; }
+.pipe-box { background: var(--navy); color: #fff; border-radius: 4px; padding: 0.75rem 1rem; text-align: center; width: 100%; position: relative; }
+.pipe-box.raw { background: #2c3e50; }
+.pipe-box.analytics { background: var(--navy); }
+.pipe-box.reporting { background: #1a6b3c; }
+.pipe-box.powerbi { background: #c0392b; }
+.pipe-schema { font-family: var(--mono); font-size: 0.55rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+.pipe-name { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; color: #fff; }
+.pipe-tables { margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.2rem; }
+.pipe-table { font-family: var(--mono); font-size: 0.52rem; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.08); padding: 0.15rem 0.4rem; border-radius: 2px; text-align: left; }
+.pipe-arrow { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; padding: 0 0.5rem; }
+.pipe-arrow-line { width: 40px; height: 2px; background: var(--border); position: relative; }
+.pipe-arrow-line::after { content: '▶'; position: absolute; right: -8px; top: -7px; font-size: 0.6rem; color: var(--text3); }
+.pipe-arrow-lbl { font-family: var(--mono); font-size: 0.5rem; color: var(--text3); text-align: center; white-space: nowrap; }
+.pipe-step-lbl { font-family: var(--mono); font-size: 0.58rem; color: var(--text3); text-align: center; margin-top: 0.3rem; }
+
+/* SQL viewer */
+.sql-viewer { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.sql-tabs { display: flex; background: #1e1e1e; border-bottom: 1px solid #333; overflow-x: auto; }
+.sql-tab { font-family: var(--mono); font-size: 0.58rem; padding: 0.5rem 1rem; color: rgba(255,255,255,0.4); cursor: pointer; border-right: 1px solid #333; white-space: nowrap; transition: all 0.2s; border-bottom: 2px solid transparent; }
+.sql-tab:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.04); }
+.sql-tab.active { color: #fff; background: #2d2d2d; border-bottom-color: var(--red); }
+.sql-body { background: #1e1e1e; padding: 1rem 1.25rem; overflow-x: auto; max-height: 320px; overflow-y: auto; }
+.sql-block { display: none; }
+.sql-block.active { display: block; }
+pre { font-family: var(--mono); font-size: 0.68rem; line-height: 1.7; color: #d4d4d4; white-space: pre; }
+.kw { color: #569cd6; } /* keywords */
+.fn { color: #dcdcaa; } /* functions */
+.cm { color: #6a9955; font-style: italic; } /* comments */
+.st { color: #ce9178; } /* strings */
+.nm { color: #b5cea8; } /* numbers */
+.tb { color: #4ec9b0; } /* table names */
+
+/* Tech stack cards */
+.stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.stack-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; transition: box-shadow 0.2s, transform 0.2s; }
+.stack-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.stack-icon { font-size: 1.5rem; }
+.stack-name { font-weight: 600; font-size: 0.8rem; color: var(--navy); }
+.stack-role { font-family: var(--mono); font-size: 0.58rem; color: var(--text3); line-height: 1.6; }
+.stack-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
+.stack-tag { font-family: var(--mono); font-size: 0.52rem; padding: 0.15rem 0.5rem; border: 1px solid var(--border); color: var(--text3); border-radius: 2px; }
+
+/* Key findings */
+.findings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+.finding-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--navy); border-radius: 2px; padding: 1rem; }
+.finding-card.red { border-left-color: var(--red); }
+.finding-card.green { border-left-color: #27ae60; }
+.finding-stat { font-size: 1.6rem; font-weight: 700; color: var(--navy); letter-spacing: -0.04em; line-height: 1; }
+.finding-card.red .finding-stat { color: var(--red); }
+.finding-card.green .finding-stat { color: #27ae60; }
+.finding-desc { font-family: var(--mono); font-size: 0.58rem; color: var(--text3); margin-top: 0.35rem; line-height: 1.5; }
+
+.section-hdr { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+.section-hdr-title { font-size: 0.82rem; font-weight: 600; color: var(--navy); }
+.section-hdr-line { flex: 1; height: 1px; background: var(--border); }
+.section-hdr-tag { font-family: var(--mono); font-size: 0.54rem; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; }
 </style>
 </head>
 <body>
@@ -101,6 +173,14 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
   </div>
 </div>
 
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('dashboard',this)"><span class="tab-icon">📊</span>Dashboard</button>
+  <button class="tab-btn" onclick="switchTab('pipeline',this)"><span class="tab-icon">🔧</span>How It's Built</button>
+</div>
+
+<!-- DASHBOARD TAB -->
+<div id="tab-dashboard" class="tab-panel active">
 <div class="slicer-bar">
   <span class="slicer-label">Risk Tier:</span>
   <button class="s-btn active" onclick="setFilter('ALL',this)">All</button>
@@ -187,6 +267,419 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
 
 </div>
 
+<!-- HOW IT'S BUILT TAB -->
+<div id="tab-pipeline" class="tab-panel">
+<div class="hib">
+
+  <!-- Tech Stack -->
+  <div>
+    <div class="section-hdr">
+      <span class="section-hdr-title">Tech Stack</span>
+      <span class="section-hdr-line"></span>
+      <span class="section-hdr-tag">Tools Used</span>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="stack-icon">❄️</div>
+        <div class="stack-name">Snowflake</div>
+        <div class="stack-role">Cloud data warehouse. Stores all raw and transformed data. Hosts the scoring pipeline and reporting views.</div>
+        <div class="stack-tags">
+          <span class="stack-tag">Data Warehouse</span>
+          <span class="stack-tag">SQL Engine</span>
+          <span class="stack-tag">Free Trial</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">🗄️</div>
+        <div class="stack-name">SQL</div>
+        <div class="stack-role">Window functions, CTEs, Z-score calculation, IQR flagging, feature engineering, and all reporting aggregations.</div>
+        <div class="stack-tags">
+          <span class="stack-tag">Window Functions</span>
+          <span class="stack-tag">CTEs</span>
+          <span class="stack-tag">Aggregations</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">📊</div>
+        <div class="stack-name">Power BI</div>
+        <div class="stack-role">Connected to Snowflake REPORTING schema. Built interactive visuals, risk tier slicer, and high-risk account drill-through.</div>
+        <div class="stack-tags">
+          <span class="stack-tag">DAX</span>
+          <span class="stack-tag">Data Model</span>
+          <span class="stack-tag">Drill-through</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-icon">🐍</div>
+        <div class="stack-name">Python</div>
+        <div class="stack-role">Used for pre-processing the raw CSV — dropping index column, fixing date formats before loading into Snowflake.</div>
+        <div class="stack-tags">
+          <span class="stack-tag">pandas</span>
+          <span class="stack-tag">Data Cleaning</span>
+          <span class="stack-tag">CSV Processing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline Architecture -->
+  <div>
+    <div class="section-hdr">
+      <span class="section-hdr-title">Pipeline Architecture</span>
+      <span class="section-hdr-line"></span>
+      <span class="section-hdr-tag">4 Stage Pipeline</span>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="pipe-box raw">
+          <div class="pipe-schema">Source</div>
+          <div class="pipe-name">Kaggle CSV</div>
+          <div class="pipe-tables">
+            <div class="pipe-table">fraudTest.csv</div>
+            <div class="pipe-table">770K rows · 22 cols</div>
+            <div class="pipe-table">Python pre-process</div>
+          </div>
+        </div>
+        <div class="pipe-step-lbl">Raw Data</div>
+      </div>
+      <div class="pipe-arrow">
+        <div class="pipe-arrow-line"></div>
+        <div class="pipe-arrow-lbl">COPY INTO<br/>@FRAUD_STAGE</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-box">
+          <div class="pipe-schema">RAW Schema</div>
+          <div class="pipe-name">Ingest</div>
+          <div class="pipe-tables">
+            <div class="pipe-table">RAW.TRANSACTIONS</div>
+            <div class="pipe-table">01_setup_and_load</div>
+            <div class="pipe-table">File format · Stage</div>
+          </div>
+        </div>
+        <div class="pipe-step-lbl">SQL File 01</div>
+      </div>
+      <div class="pipe-arrow">
+        <div class="pipe-arrow-line"></div>
+        <div class="pipe-arrow-lbl">CREATE TABLE<br/>AS SELECT</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-box">
+          <div class="pipe-schema">ANALYTICS Schema</div>
+          <div class="pipe-name">Enrich + Score</div>
+          <div class="pipe-tables">
+            <div class="pipe-table">TRANSACTIONS_ENRICHED</div>
+            <div class="pipe-table">CARD_BASELINES</div>
+            <div class="pipe-table">TRANSACTIONS_SCORED</div>
+          </div>
+        </div>
+        <div class="pipe-step-lbl">SQL Files 02 + 03</div>
+      </div>
+      <div class="pipe-arrow">
+        <div class="pipe-arrow-line"></div>
+        <div class="pipe-arrow-lbl">CREATE VIEW<br/>AS SELECT</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-box reporting">
+          <div class="pipe-schema">REPORTING Schema</div>
+          <div class="pipe-name">Views</div>
+          <div class="pipe-tables">
+            <div class="pipe-table">VW_KPI_SUMMARY</div>
+            <div class="pipe-table">VW_FRAUD_BY_HOUR</div>
+            <div class="pipe-table">VW_HIGH_RISK_ACCTS</div>
+          </div>
+        </div>
+        <div class="pipe-step-lbl">SQL File 04</div>
+      </div>
+      <div class="pipe-arrow">
+        <div class="pipe-arrow-line"></div>
+        <div class="pipe-arrow-lbl">Get Data<br/>Snowflake</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-box powerbi">
+          <div class="pipe-schema">Visualisation</div>
+          <div class="pipe-name">Power BI</div>
+          <div class="pipe-tables">
+            <div class="pipe-table">7 report pages</div>
+            <div class="pipe-table">Risk tier slicer</div>
+            <div class="pipe-table">Drill-through</div>
+          </div>
+        </div>
+        <div class="pipe-step-lbl">Dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SQL Viewer -->
+  <div>
+    <div class="section-hdr">
+      <span class="section-hdr-title">SQL Scripts</span>
+      <span class="section-hdr-line"></span>
+      <span class="section-hdr-tag">Snowflake SQL · 4 Files</span>
+    </div>
+    <div class="sql-viewer">
+      <div class="sql-tabs">
+        <div class="sql-tab active" onclick="switchSQL('sql1',this)">01 · Setup & Load</div>
+        <div class="sql-tab" onclick="switchSQL('sql2',this)">02 · Clean & Enrich</div>
+        <div class="sql-tab" onclick="switchSQL('sql3',this)">03 · Anomaly Detection</div>
+        <div class="sql-tab" onclick="switchSQL('sql4',this)">04 · Reporting Views</div>
+      </div>
+      <div class="sql-body">
+
+        <div id="sql1" class="sql-block active"><pre><span class="cm">-- ============================================================
+-- FILE 01: Setup, create tables, load CSV from stage
+-- ============================================================</span>
+
+<span class="cm">-- Create database and schemas</span>
+<span class="kw">CREATE DATABASE IF NOT EXISTS</span> <span class="tb">FRAUD_ANALYTICS</span>;
+<span class="kw">USE DATABASE</span> <span class="tb">FRAUD_ANALYTICS</span>;
+<span class="kw">CREATE SCHEMA IF NOT EXISTS</span> RAW;
+<span class="kw">CREATE SCHEMA IF NOT EXISTS</span> ANALYTICS;
+<span class="kw">CREATE SCHEMA IF NOT EXISTS</span> REPORTING;
+
+<span class="cm">-- Raw transactions table (22 columns matching fraudTest.csv)</span>
+<span class="kw">CREATE OR REPLACE TABLE</span> <span class="tb">RAW.TRANSACTIONS</span> (
+    TRANS_DATE_TRANS_TIME   TIMESTAMP,
+    CC_NUM                  VARCHAR(<span class="nm">25</span>),
+    MERCHANT                VARCHAR(<span class="nm">100</span>),
+    CATEGORY                VARCHAR(<span class="nm">50</span>),
+    AMT                     FLOAT,
+    FIRST                   VARCHAR(<span class="nm">50</span>),
+    LAST                    VARCHAR(<span class="nm">50</span>),
+    GENDER                  VARCHAR(<span class="nm">1</span>),
+    STATE                   VARCHAR(<span class="nm">2</span>),
+    ZIP                     VARCHAR(<span class="nm">10</span>),
+    LAT                     FLOAT,
+    LONG                    FLOAT,
+    CITY_POP                INTEGER,
+    JOB                     VARCHAR(<span class="nm">100</span>),
+    DOB                     DATE,
+    TRANS_NUM               VARCHAR(<span class="nm">50</span>),
+    UNIX_TIME               BIGINT,
+    MERCH_LAT               FLOAT,
+    MERCH_LONG              FLOAT,
+    IS_FRAUD                INTEGER
+);
+
+<span class="cm">-- File format for CSV loading</span>
+<span class="kw">CREATE OR REPLACE FILE FORMAT</span> FRAUD_ANALYTICS.RAW.CSV_FORMAT
+    TYPE = <span class="st">'CSV'</span>
+    FIELD_OPTIONALLY_ENCLOSED_BY = <span class="st">'"'</span>
+    SKIP_HEADER = <span class="nm">1</span>
+    TIMESTAMP_FORMAT = <span class="st">'AUTO'</span>
+    DATE_FORMAT = <span class="st">'AUTO'</span>
+    NULL_IF = (<span class="st">'NULL'</span>, <span class="st">'null'</span>, <span class="st">''</span>);
+
+<span class="cm">-- Load from stage</span>
+<span class="kw">COPY INTO</span> <span class="tb">RAW.TRANSACTIONS</span>
+<span class="kw">FROM</span> @FRAUD_STAGE
+FILE_FORMAT = (FORMAT_NAME = <span class="st">'CSV_FORMAT'</span>)
+ON_ERROR = <span class="st">'CONTINUE'</span>;
+
+<span class="cm">-- Verify: should show ~770K rows, ~0.38% fraud rate</span>
+<span class="kw">SELECT</span>
+    <span class="fn">COUNT</span>(*)                                   <span class="kw">AS</span> total_records,
+    <span class="fn">SUM</span>(IS_FRAUD)                              <span class="kw">AS</span> total_fraud,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(IS_FRAUD) / <span class="fn">COUNT</span>(*) * <span class="nm">100</span>, <span class="nm">4</span>)  <span class="kw">AS</span> fraud_rate_pct
+<span class="kw">FROM</span> <span class="tb">RAW.TRANSACTIONS</span>;</pre></div>
+
+        <div id="sql2" class="sql-block"><pre><span class="cm">-- ============================================================
+-- FILE 02: Data quality checks + feature engineering
+-- ============================================================</span>
+
+<span class="cm">-- Null check across critical columns</span>
+<span class="kw">SELECT</span>
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> CC_NUM    <span class="kw">IS NULL THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) <span class="kw">AS</span> null_cc_num,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> AMT       <span class="kw">IS NULL THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) <span class="kw">AS</span> null_amt,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> IS_FRAUD  <span class="kw">IS NULL THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) <span class="kw">AS</span> null_is_fraud
+<span class="kw">FROM</span> <span class="tb">RAW.TRANSACTIONS</span>;
+
+<span class="cm">-- Enriched table with time features, age, and distance</span>
+<span class="kw">CREATE OR REPLACE TABLE</span> <span class="tb">ANALYTICS.TRANSACTIONS_ENRICHED</span> <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    TRANS_NUM, CC_NUM,
+    TRANS_DATE_TRANS_TIME                              <span class="kw">AS</span> TRANS_TIMESTAMP,
+    <span class="fn">DATE</span>(TRANS_DATE_TRANS_TIME)                        <span class="kw">AS</span> TRANS_DATE,
+
+    <span class="cm">-- Time features</span>
+    <span class="fn">HOUR</span>(TRANS_DATE_TRANS_TIME)                        <span class="kw">AS</span> TRANS_HOUR,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> <span class="fn">HOUR</span>(TRANS_DATE_TRANS_TIME) <span class="kw">BETWEEN</span> <span class="nm">0</span>  <span class="kw">AND</span> <span class="nm">5</span>  <span class="kw">THEN</span> <span class="st">'Late Night'</span>
+        <span class="kw">WHEN</span> <span class="fn">HOUR</span>(TRANS_DATE_TRANS_TIME) <span class="kw">BETWEEN</span> <span class="nm">6</span>  <span class="kw">AND</span> <span class="nm">11</span> <span class="kw">THEN</span> <span class="st">'Morning'</span>
+        <span class="kw">WHEN</span> <span class="fn">HOUR</span>(TRANS_DATE_TRANS_TIME) <span class="kw">BETWEEN</span> <span class="nm">12</span> <span class="kw">AND</span> <span class="nm">17</span> <span class="kw">THEN</span> <span class="st">'Afternoon'</span>
+        <span class="kw">ELSE</span> <span class="st">'Evening'</span>
+    <span class="kw">END</span>                                                <span class="kw">AS</span> TIME_OF_DAY,
+
+    <span class="cm">-- Cardholder age</span>
+    <span class="fn">DATEDIFF</span>(<span class="st">'year'</span>, DOB, TRANS_DATE_TRANS_TIME)       <span class="kw">AS</span> CARDHOLDER_AGE,
+
+    <span class="cm">-- Distance: cardholder vs merchant (Haversine formula)</span>
+    <span class="fn">ROUND</span>(
+        <span class="nm">3959</span> * <span class="fn">ACOS</span>(<span class="fn">LEAST</span>(<span class="nm">1.0</span>,
+            <span class="fn">COS</span>(<span class="fn">RADIANS</span>(LAT)) * <span class="fn">COS</span>(<span class="fn">RADIANS</span>(MERCH_LAT))
+            * <span class="fn">COS</span>(<span class="fn">RADIANS</span>(MERCH_LONG) - <span class="fn">RADIANS</span>(LONG))
+            + <span class="fn">SIN</span>(<span class="fn">RADIANS</span>(LAT)) * <span class="fn">SIN</span>(<span class="fn">RADIANS</span>(MERCH_LAT))
+        )), <span class="nm">2</span>
+    )                                                  <span class="kw">AS</span> DIST_MILES,
+
+    AMT, CATEGORY, MERCHANT, STATE, CITY_POP,
+    IS_FRAUD
+
+<span class="kw">FROM</span> <span class="tb">RAW.TRANSACTIONS</span>
+<span class="kw">WHERE</span> TRANS_NUM <span class="kw">IS NOT NULL</span> <span class="kw">AND</span> AMT > <span class="nm">0</span>;</pre></div>
+
+        <div id="sql3" class="sql-block"><pre><span class="cm">-- ============================================================
+-- FILE 03: Z-score + IQR anomaly detection + risk scoring
+-- ============================================================</span>
+
+<span class="cm">-- Step 1: Per-card baseline (built on LEGITIMATE txns only)</span>
+<span class="kw">CREATE OR REPLACE TABLE</span> <span class="tb">ANALYTICS.CARD_BASELINES</span> <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    CC_NUM,
+    <span class="fn">COUNT</span>(*)                                           <span class="kw">AS</span> TOTAL_TXN_COUNT,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(AMT), <span class="nm">2</span>)                                 <span class="kw">AS</span> AVG_TXN_AMT,
+    <span class="fn">ROUND</span>(<span class="fn">STDDEV</span>(AMT), <span class="nm">2</span>)                              <span class="kw">AS</span> STDDEV_TXN_AMT,
+    <span class="fn">ROUND</span>(<span class="fn">PERCENTILE_CONT</span>(<span class="nm">0.25</span>)
+        <span class="kw">WITHIN GROUP</span> (<span class="kw">ORDER BY</span> AMT), <span class="nm">2</span>)               <span class="kw">AS</span> Q1_AMT,
+    <span class="fn">ROUND</span>(<span class="fn">PERCENTILE_CONT</span>(<span class="nm">0.75</span>)
+        <span class="kw">WITHIN GROUP</span> (<span class="kw">ORDER BY</span> AMT), <span class="nm">2</span>)               <span class="kw">AS</span> Q3_AMT
+<span class="kw">FROM</span> <span class="tb">ANALYTICS.TRANSACTIONS_ENRICHED</span>
+<span class="kw">WHERE</span> IS_FRAUD = <span class="nm">0</span>   <span class="cm">-- legitimate only</span>
+<span class="kw">GROUP BY</span> CC_NUM
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) >= <span class="nm">5</span>;
+
+<span class="cm">-- Step 2: Score every transaction</span>
+<span class="kw">CREATE OR REPLACE TABLE</span> <span class="tb">ANALYTICS.TRANSACTIONS_SCORED</span> <span class="kw">AS</span>
+<span class="kw">WITH</span> scored <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        t.*,
+        <span class="cm">-- Z-score: std deviations above card mean</span>
+        <span class="kw">CASE WHEN</span> b.STDDEV_TXN_AMT > <span class="nm">0</span>
+            <span class="kw">THEN</span> <span class="fn">ROUND</span>((t.AMT - b.AVG_TXN_AMT)
+                      / b.STDDEV_TXN_AMT, <span class="nm">2</span>)
+            <span class="kw">ELSE</span> <span class="nm">0</span>
+        <span class="kw">END</span>                                            <span class="kw">AS</span> Z_SCORE,
+
+        <span class="cm">-- Anomaly flags (each = 1 point toward risk score)</span>
+        <span class="kw">CASE WHEN</span> (t.AMT - b.AVG_TXN_AMT)
+            / <span class="fn">NULLIF</span>(b.STDDEV_TXN_AMT,<span class="nm">0</span>) > <span class="nm">3</span>
+            <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>                         <span class="kw">AS</span> FLAG_ZSCORE,
+
+        <span class="kw">CASE WHEN</span> t.AMT > (b.Q3_AMT
+            + <span class="nm">1.5</span> * (b.Q3_AMT - b.Q1_AMT))
+            <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>                         <span class="kw">AS</span> FLAG_IQR,
+
+        <span class="kw">CASE WHEN</span> t.TIME_OF_DAY = <span class="st">'Late Night'</span>
+            <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>                         <span class="kw">AS</span> FLAG_LATE_NIGHT,
+
+        <span class="kw">CASE WHEN</span> t.DIST_MILES > <span class="nm">100</span>
+            <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>                         <span class="kw">AS</span> FLAG_DISTANCE,
+
+        <span class="kw">CASE WHEN</span> t.CATEGORY <span class="kw">IN</span> (
+            <span class="st">'shopping_net'</span>,<span class="st">'misc_net'</span>,<span class="st">'grocery_pos'</span>)
+            <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>                         <span class="kw">AS</span> FLAG_HIGH_RISK_CAT
+
+    <span class="kw">FROM</span> <span class="tb">ANALYTICS.TRANSACTIONS_ENRICHED</span> t
+    <span class="kw">LEFT JOIN</span> <span class="tb">ANALYTICS.CARD_BASELINES</span> b <span class="kw">ON</span> t.CC_NUM = b.CC_NUM
+)
+<span class="kw">SELECT</span> *,
+    (FLAG_ZSCORE + FLAG_IQR + FLAG_LATE_NIGHT
+     + FLAG_DISTANCE + FLAG_HIGH_RISK_CAT)             <span class="kw">AS</span> RISK_SCORE,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> (FLAG_ZSCORE+FLAG_IQR+FLAG_LATE_NIGHT
+              +FLAG_DISTANCE+FLAG_HIGH_RISK_CAT) >= <span class="nm">4</span> <span class="kw">THEN</span> <span class="st">'CRITICAL'</span>
+        <span class="kw">WHEN</span> (FLAG_ZSCORE+FLAG_IQR+FLAG_LATE_NIGHT
+              +FLAG_DISTANCE+FLAG_HIGH_RISK_CAT) = <span class="nm">3</span>  <span class="kw">THEN</span> <span class="st">'HIGH'</span>
+        <span class="kw">WHEN</span> (FLAG_ZSCORE+FLAG_IQR+FLAG_LATE_NIGHT
+              +FLAG_DISTANCE+FLAG_HIGH_RISK_CAT) = <span class="nm">2</span>  <span class="kw">THEN</span> <span class="st">'MEDIUM'</span>
+        <span class="kw">WHEN</span> (FLAG_ZSCORE+FLAG_IQR+FLAG_LATE_NIGHT
+              +FLAG_DISTANCE+FLAG_HIGH_RISK_CAT) = <span class="nm">1</span>  <span class="kw">THEN</span> <span class="st">'LOW'</span>
+        <span class="kw">ELSE</span> <span class="st">'NORMAL'</span>
+    <span class="kw">END</span>                                                <span class="kw">AS</span> RISK_TIER
+<span class="kw">FROM</span> scored;</pre></div>
+
+        <div id="sql4" class="sql-block"><pre><span class="cm">-- ============================================================
+-- FILE 04: Reporting views — Power BI connects here
+-- ============================================================</span>
+
+<span class="cm">-- KPI summary card</span>
+<span class="kw">CREATE OR REPLACE VIEW</span> <span class="tb">REPORTING.VW_KPI_SUMMARY</span> <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    <span class="fn">COUNT</span>(*)                                           <span class="kw">AS</span> TOTAL_TRANSACTIONS,
+    <span class="fn">SUM</span>(IS_FRAUD)                                      <span class="kw">AS</span> TOTAL_FRAUD_CASES,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(IS_FRAUD)::<span class="kw">FLOAT</span> / <span class="fn">COUNT</span>(*) * <span class="nm">100</span>, <span class="nm">3</span>)  <span class="kw">AS</span> OVERALL_FRAUD_RATE_PCT,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> IS_FRAUD=<span class="nm">1</span> <span class="kw">THEN</span> AMT <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>),<span class="nm">2</span>) <span class="kw">AS</span> TOTAL_FRAUD_AMOUNT,
+    <span class="fn">COUNT</span>(<span class="kw">CASE WHEN</span> RISK_TIER = <span class="st">'CRITICAL'</span> <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">END</span>) <span class="kw">AS</span> CRITICAL_ALERTS
+<span class="kw">FROM</span> <span class="tb">ANALYTICS.TRANSACTIONS_SCORED</span>;
+
+<span class="cm">-- Fraud by hour (includes RISK_TIER for slicer)</span>
+<span class="kw">CREATE OR REPLACE VIEW</span> <span class="tb">REPORTING.VW_FRAUD_BY_HOUR</span> <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    RISK_TIER, TRANS_HOUR, TIME_OF_DAY,
+    <span class="fn">COUNT</span>(*)                                           <span class="kw">AS</span> TOTAL_TXN,
+    <span class="fn">SUM</span>(IS_FRAUD)                                      <span class="kw">AS</span> FRAUD_COUNT,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(IS_FRAUD)::<span class="kw">FLOAT</span>/<span class="fn">COUNT</span>(*)*<span class="nm">100</span>,<span class="nm">2</span>)        <span class="kw">AS</span> FRAUD_RATE_PCT
+<span class="kw">FROM</span> <span class="tb">ANALYTICS.TRANSACTIONS_SCORED</span>
+<span class="kw">GROUP BY</span> RISK_TIER, TRANS_HOUR, TIME_OF_DAY;
+
+<span class="cm">-- High risk accounts drill-through</span>
+<span class="kw">CREATE OR REPLACE VIEW</span> <span class="tb">REPORTING.VW_HIGH_RISK_ACCOUNTS</span> <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    CC_NUM,
+    <span class="fn">COUNT</span>(*)                                           <span class="kw">AS</span> TOTAL_TXN,
+    <span class="fn">SUM</span>(IS_FRAUD)                                      <span class="kw">AS</span> CONFIRMED_FRAUD_COUNT,
+    <span class="fn">COUNT</span>(<span class="kw">CASE WHEN</span> RISK_TIER <span class="kw">IN</span>
+        (<span class="st">'CRITICAL'</span>,<span class="st">'HIGH'</span>) <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">END</span>)               <span class="kw">AS</span> HIGH_RISK_FLAGS,
+    <span class="fn">ROUND</span>(<span class="fn">MAX</span>(AMT), <span class="nm">2</span>)                                <span class="kw">AS</span> MAX_TXN_AMT,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(AMT), <span class="nm">2</span>)                                <span class="kw">AS</span> TOTAL_SPEND,
+    <span class="fn">MAX</span>(TRANS_DATE)                                    <span class="kw">AS</span> LAST_TXN_DATE
+<span class="kw">FROM</span> <span class="tb">ANALYTICS.TRANSACTIONS_SCORED</span>
+<span class="kw">WHERE</span> RISK_TIER <span class="kw">IN</span> (<span class="st">'CRITICAL'</span>,<span class="st">'HIGH'</span>)
+<span class="kw">GROUP BY</span> CC_NUM
+<span class="kw">ORDER BY</span> HIGH_RISK_FLAGS <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="nm">500</span>;</pre></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Findings -->
+  <div>
+    <div class="section-hdr">
+      <span class="section-hdr-title">Key Findings</span>
+      <span class="section-hdr-line"></span>
+      <span class="section-hdr-tag">From the Data</span>
+    </div>
+    <div class="findings-grid">
+      <div class="finding-card red">
+        <div class="finding-stat">0.38%</div>
+        <div class="finding-desc">Overall fraud rate across 770K transactions — highly imbalanced dataset requiring statistical rather than count-based detection</div>
+      </div>
+      <div class="finding-card red">
+        <div class="finding-stat">shopping_net</div>
+        <div class="finding-desc">Highest fraud rate category at 1.05% — online shopping transactions 2.8× more likely to be fraudulent than average</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-stat">22–23h</div>
+        <div class="finding-desc">Fraud spikes sharply at hours 22–23 (10–11pm), with elevated rates through early morning (0–4am) — matching known fraud behaviour patterns</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-stat">$1,000+</div>
+        <div class="finding-desc">Highest absolute fraud volume in the $1,000+ band — large transactions significantly more likely to be flagged across all risk tiers</div>
+      </div>
+      <div class="finding-card green">
+        <div class="finding-stat">5,288</div>
+        <div class="finding-desc">Total high-risk flags raised across the dataset — composite scoring isolates the top accounts for priority manual review</div>
+      </div>
+      <div class="finding-card green">
+        <div class="finding-stat">$3.2M</div>
+        <div class="finding-desc">Total spend across flagged high-risk accounts — top 6 accounts alone account for over $1.2M in transaction volume requiring investigation</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
 <div class="dash-footer">
   <span>Data Source: Snowflake · FRAUD_ANALYTICS.REPORTING · fraudTest.csv</span>
   <span>Abdullah Ibrahim · Portfolio Project · 2025</span>
@@ -195,6 +688,22 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
 
 <script>
 const NAVY='#1a3a5c', RED='#c0392b', RED2='#e74c3c';
+
+// Tab switching
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// SQL tab switching
+function switchSQL(blockId, tab) {
+  document.querySelectorAll('.sql-block').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sql-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(blockId).classList.add('active');
+  tab.classList.add('active');
+}
 
 // ── EXACT DATA FROM YOUR SCREENSHOT ──
 const hourFraud = [45,42,38,35,30,22,8,4,3,4,5,6,7,6,6,5,5,6,8,10,14,20,55,90];
