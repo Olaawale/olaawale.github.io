@@ -135,7 +135,7 @@ pre { font-family: var(--mono); font-size: 0.68rem; line-height: 1.7; color: #d4
 .tb { color: #4ec9b0; } /* table names */
 
 /* Tech stack cards */
-.stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
 .stack-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; transition: box-shadow 0.2s, transform 0.2s; }
 .stack-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.1); transform: translateY(-2px); }
 .stack-icon { font-size: 1.5rem; }
@@ -266,6 +266,7 @@ pre { font-family: var(--mono); font-size: 0.68rem; line-height: 1.7; color: #d4
   </div>
 
 </div>
+</div><!-- end tab-dashboard -->
 
 <!-- HOW IT'S BUILT TAB -->
 <div id="tab-pipeline" class="tab-panel">
@@ -309,16 +310,7 @@ pre { font-family: var(--mono); font-size: 0.68rem; line-height: 1.7; color: #d4
           <span class="stack-tag">Drill-through</span>
         </div>
       </div>
-      <div class="stack-card">
-        <div class="stack-icon">🐍</div>
-        <div class="stack-name">Python</div>
-        <div class="stack-role">Used for pre-processing the raw CSV — dropping index column, fixing date formats before loading into Snowflake.</div>
-        <div class="stack-tags">
-          <span class="stack-tag">pandas</span>
-          <span class="stack-tag">Data Cleaning</span>
-          <span class="stack-tag">CSV Processing</span>
-        </div>
-      </div>
+
     </div>
   </div>
 
@@ -337,7 +329,7 @@ pre { font-family: var(--mono); font-size: 0.68rem; line-height: 1.7; color: #d4
           <div class="pipe-tables">
             <div class="pipe-table">fraudTest.csv</div>
             <div class="pipe-table">770K rows · 22 cols</div>
-            <div class="pipe-table">Python pre-process</div>
+            <div class="pipe-table">Kaggle dataset</div>
           </div>
         </div>
         <div class="pipe-step-lbl">Raw Data</div>
